@@ -1,0 +1,42 @@
+{
+    "name": "GC_IA",
+    "version": "0.1",
+    "author": [
+        "Government of Canada",
+        "Nick Pietrantonio"
+    ],
+    "description": "Allows users to add communities of practice to their page",
+    "descriptionmsg":"gc_ia-desc",
+    "type": "other",
+    "MessagesDirs":{
+        "GC_IA":[
+            "i18n"
+        ]
+    },
+    "ResourceModules":{
+        "ext.gc_ia":{
+            "group":"ext.gc_ia",
+            "scripts":[
+                "selectize.js",
+                "testing.js"
+            ],
+            "styles": [
+                "selectize.bootstrap3.css"
+            ],
+            "dependencies":[
+                "jquery.client"
+            ],
+            "position": "top"
+            
+        }
+    },
+    "ResourceFileModulePaths":{
+        "localBasePath": "resources",
+        "remoteExtPath": "GC_IA/resources"
+    },
+    "AutoloadClasses":{
+        
+    },
+    "manifest_version": 1
+    
+}

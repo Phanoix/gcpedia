@@ -1,5 +1,5 @@
 <?php
-/*
+
 if(function_exists('wfLoadExtension')){
     wfLoadExtension('GC_IA');
     
@@ -8,7 +8,8 @@ if(function_exists('wfLoadExtension')){
 }else{
     die('Error with GC_IA');
 }
-*/
+
+/*
 if(!defined('MEDIAWIKI')){
     die("This is not a valid entry point,");
 }
@@ -34,3 +35,4 @@ $wgResourceModules['ext.gc_ia'] = $myResourceTemplate + array(
     'messages' => array(
     )
 );
+*/

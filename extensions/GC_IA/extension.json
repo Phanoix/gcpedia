@@ -17,11 +17,11 @@
         "ext.gc_ia":{
             "group":"ext.gc_ia",
             "scripts":[
-                "selectize.js",
-                "testing.js"
+                "resources/selectize.js",
+                "resources/testing.js"
             ],
             "styles": [
-                "selectize.bootstrap3.css"
+                "resources/selectize.bootstrap3.css"
             ],
             "dependencies":[
                 "jquery.client"
@@ -31,12 +31,23 @@
         }
     },
     "ResourceFileModulePaths":{
-        "localBasePath": "resources",
-        "remoteExtPath": "GC_IA/resources"
+        "localBasePath": "",
+        "remoteExtPath": "GC_IA"
     },
     "AutoloadClasses":{
-        
+        "GC_IA":"GC_IA_body.php"
     },
+    "Hooks": {
+		"BeforePageDisplay": [
+			"GC_IA::loadscripts"
+		],
+        "EditPage::showEditForm:fields":[
+            "GC_IA::audienceField"
+        ],
+        "PageContentSave": [
+            "GC_IA::addAudienceOnSave"
+        ]
+	},
     "manifest_version": 1
     
 }

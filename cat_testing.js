@@ -100,6 +100,7 @@ window.HotCat = {
 	// to another non-blacklisted category. If your wiki doesn't have soft category redirects, set this to null.
     // If a soft-redirected category contains more than one link to another non-blacklisted category, it's considered
     // a disambiguation category instead.
+    //GCTools Add audience to links
  ,links : {change: '(±)', remove: '(\u2212)', add: '(+)', restore: '(×)', undo: '(×)', down: '(\u2193)', up: '(\u2191)', add_a: '(+ Audience)'}
 	// The little modification links displayed after category names. U+2212 is a minus sign; U+2193 and U+2191 are
 	// downward and upward pointing arrows. Do not use ↓ and ↑ in the code!
@@ -1344,7 +1345,7 @@ window.HotCat = {
 				var lk = make ('a'); lk.href = '#catlinks'; lk.onclick = bind (this.open, this);
 				lk.appendChild (make (HotCat.links.add, true)); lk.title = HotCat.tooltips.add;
 				this.linkSpan.appendChild (lk);
-                
+                //GCTools create add audience link
                 var alk= make('a'); alk.href = "#catlinks"; alk.onclick = bind(this.open_a, this);
                 alk.appendChild(make (HotCat.links.add_a, true)); alk.title = 'AUDIENCE';
                 this.linkSpan.appendChild(alk);
@@ -1592,30 +1593,31 @@ window.HotCat = {
 
             //GCTools adding audience
             var audienceSelect = make ('select');
-            
+            //GCTools to keep the same category pages we'll have long bilingual categories
+            //GCTools this will make sure all content tagged with these are grouped together regardless of lang
             var audiencesArray = {
-                'atip': 'Access to Information and Privacy Specialists',
-                'communications': "Communications Specialists",
-                'evaluators': "Evaluators",
-                'financial': "Financial Officers",
-                'hr': "Human Resources Professionals",
-                'im': "Information Management Specialists",
-                'it': "Information Technology Specialists",
-                'auditors': "Internal Auditors",
-                'matmanagement': "Materiel Management Specialists",
-                'policy': "Policy Specialists",
-                'procurement': "Procurement Specialists",
-                'realproperty': "Real Property Specialists",
-                'regulators': "Regulators",
-                'security': "Security Specialists",
-                'service': "Service Specialists",
-                'science': "Science and Technology Specialists",
+                'atip': 'Access to Information and Privacy Specialists / Spécialistes de l’accès à l’information et de la protection des renseignements personnels',
+                'communications': "Communications Specialists / Spécialistes en communications",
+                'evaluators': "Evaluators / Évaluateurs",
+                'financial': "Financial Officers / Agents financiers",
+                'hr': "Human Resources Professionals / Professionnels en ressources humaines",
+                'im': "Information Management Specialists / Spécialistes en gestion de l'information",
+                'it': "Information Technology Specialists / Spécialistes des technologies de l'information",
+                'auditors': "Internal Auditors / Vérificateurs internes",
+                'matmanagement': "Materiel Management Specialists / Spécialistes de la gestion du matériel",
+                'policy': "Policy Specialists / Spécialistes des politiques",
+                'procurement': "Procurement Specialists / Spécialistes des acquisitions",
+                'realproperty': "Real Property Specialists / Spécialistes des biens immobliers",
+                'regulators': "Regulators / Régulateurs",
+                'security': "Security Specialists / Spécialistes en sécurité",
+                'service': "Service Specialists / Spécialistes du service",
+                'science': "Science and Technology Specialists / Spécialistes en science et en technologie",
                 'allps' : "All Public Servants"
                 
             }
             for(var key in audiencesArray){
                 var opt = make ('option');
-                opt.value = key;
+                opt.value = audiencesArray[key];
                 opt.text = audiencesArray[key];
                 audienceSelect.appendChild(opt);
             }

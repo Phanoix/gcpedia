@@ -1607,12 +1607,12 @@ window.HotCat = {
                 'matmanagement': "Materiel Management Specialists / Spécialistes de la gestion du matériel",
                 'policy': "Policy Specialists / Spécialistes des politiques",
                 'procurement': "Procurement Specialists / Spécialistes des acquisitions",
-                'realproperty': "Real Property Specialists / Spécialistes des biens immobliers",
+                'realproperty': "Real Property Specialists / Spécialistes des biens immobiliers",
                 'regulators': "Regulators / Régulateurs",
                 'security': "Security Specialists / Spécialistes en sécurité",
                 'service': "Service Specialists / Spécialistes du service",
                 'science': "Science and Technology Specialists / Spécialistes en science et en technologie",
-                'allps' : "All Public Servants"
+                'allps' : "All Public Servants / Tous les fonctionnaires"
                 
             }
             for(var key in audiencesArray){
@@ -1621,6 +1621,7 @@ window.HotCat = {
                 opt.text = audiencesArray[key];
                 audienceSelect.appendChild(opt);
             }
+            audienceSelect.style.width ='80%';
 			// Do not use type 'submit'; we cannot detect modifier keys if we do
 			var OK = make ('input'); OK.type = 'button';
 			OK.value = button_label ('wpOkUploadLbl', HotCat.messages.ok);
@@ -1643,6 +1644,7 @@ window.HotCat = {
                span.appendChild (text); 
             }else{
                 //GCTools add dropdown to span
+                
                 span.appendChild (audienceSelect);
             }
 			

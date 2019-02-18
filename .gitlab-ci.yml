@@ -56,6 +56,7 @@ variables:
 
 stages:
   - build
+  - build-test
   - test
   - review
   - dast
@@ -77,6 +78,16 @@ build:
   script:
     - setup_docker
     - build
+  only:
+    - branches
+
+  stage: build-test
+  image: docker:stable-git
+  services:
+  - docker:stable-dind
+  script:
+    - setup_docker
+    - buildtest
   only:
     - branches
 
@@ -847,6 +858,50 @@ rollout 100%:
     fi
   }
 
+  function buildtest() {
+    registry_login
+
+    if [[ -f Dockerfile ]]; then
+      echo "Building Dockerfile-based test image..."
+      docker build \
+        --build-arg HTTP_PROXY="$HTTP_PROXY" \
+        --build-arg http_proxy="$http_proxy" \
+        --build-arg HTTPS_PROXY="$HTTPS_PROXY" \
+        --build-arg https_proxy="$https_proxy" \
+        --build-arg FTP_PROXY="$FTP_PROXY" \
+        --build-arg ftp_proxy="$ftp_proxy" \
+        --build-arg NO_PROXY="$NO_PROXY" \
+        --build-arg no_proxy="$no_proxy" \
+        -t "$CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG" .
+    else
+      echo "Building Heroku-based application using gliderlabs/herokuish docker image..."
+      docker run -i \
+        -e BUILDPACK_URL \
+        -e HTTP_PROXY \
+        -e http_proxy \
+        -e HTTPS_PROXY \
+        -e https_proxy \
+        -e FTP_PROXY \
+        -e ftp_proxy \
+        -e NO_PROXY \
+        -e no_proxy \
+        --name="$CI_CONTAINER_NAME" -v "$(pwd):/tmp/app:ro" gliderlabs/herokuish /bin/herokuish buildpack build
+      docker commit "$CI_CONTAINER_NAME" "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG"
+      docker rm "$CI_CONTAINER_NAME" >/dev/null
+      echo ""
+
+      echo "Configuring $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG docker image..."
+      docker create --expose 5000 --env PORT=5000 --name="$CI_CONTAINER_NAME" "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG" /bin/herokuish procfile start web
+      docker commit "$CI_CONTAINER_NAME" "$CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG"
+      docker rm "$CI_CONTAINER_NAME" >/dev/null
+      echo ""
+    fi
+
+    echo "Pushing to GitLab Container Registry..."
+    docker push "$CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG"
+    echo ""
+  }
+  
   function build() {
     registry_login
 

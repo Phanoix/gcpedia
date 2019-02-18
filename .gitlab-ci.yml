@@ -867,7 +867,7 @@ rollout 100%:
         --build-arg ftp_proxy="$ftp_proxy" \
         --build-arg NO_PROXY="$NO_PROXY" \
         --build-arg no_proxy="$no_proxy" \
-        -t "$CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG" .
+        -t "$CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG" -f Dockerfile.test .
     else
       echo "Building Heroku-based application using gliderlabs/herokuish docker image..."
       docker run -i \

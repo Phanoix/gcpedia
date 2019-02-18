@@ -93,8 +93,9 @@ build-test:
 
 test:
   stage: test
-  image: $CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG
+  image: docker:stable-dind
   script:
+    - docker run -it $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
     - phpunit
   only:
     - branches

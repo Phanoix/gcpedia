@@ -92,16 +92,10 @@ build-test:
     - branches
 
 test:
-  services:
-    - postgres:latest
-  variables:
-    POSTGRES_DB: test
   stage: test
-  image: gliderlabs/herokuish:latest
+  image: $CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG
   script:
-    - setup_test_db
-    - cp -R . /tmp/app
-    - /bin/herokuish buildpack test
+    - phpunit
   only:
     - branches
   except:

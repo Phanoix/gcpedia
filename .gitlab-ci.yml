@@ -95,8 +95,8 @@ test:
   stage: test
   image: docker:stable-dind
   script:
-    - docker run -it $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
-    - phpunit
+    - docker run -d -n test $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
+    - docker exec test phpunit
   only:
     - branches
   except:

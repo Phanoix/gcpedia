@@ -56,7 +56,6 @@ variables:
 
 stages:
   - build
-  - build-test
   - test
   - review
   - dast
@@ -81,7 +80,8 @@ build:
   only:
     - branches
 
-  stage: build-test
+build-test:
+  stage: build
   image: docker:stable-git
   services:
   - docker:stable-dind

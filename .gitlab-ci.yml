@@ -80,29 +80,29 @@ build:
   only:
     - branches
 
-build-test:
-  stage: build
-  image: docker:stable-git
-  services:
-  - docker:stable-dind
-  script:
-    - setup_docker
-    - buildtest
-  only:
-    - branches
+#build-test:
+#  stage: build
+#  image: docker:stable-git
+#  services:
+#  - docker:stable-dind
+#  script:
+#    - setup_docker
+#    - buildtest
+#  only:
+#    - branches
 
-test:
-  stage: test
-  image: docker:stable-dind
-  allow_failure: true
-  script:
-    - docker run -d --name test $CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG
-    - docker exec test php test/phpunit/phpunit.php
-  only:
-    - branches
-  except:
-    variables:
-      - $TEST_DISABLED
+#test:
+#  stage: test
+#  image: docker:stable-dind
+#  allow_failure: true
+#  script:
+#    - docker run -d --name test $CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG
+#    - docker exec test php test/phpunit/phpunit.php
+#  only:
+#    - branches
+#  except:
+#    variables:
+#      - $TEST_DISABLED
 
 code_quality:
   stage: test
@@ -349,16 +349,8 @@ canary:
 .production: &production_template
   stage: production
   script:
-    - check_kube_domain
     - install_dependencies
-    - download_chart
-    - ensure_namespace
-    - initialize_tiller
-    - create_secret
-    - deploy
-    - delete canary
-    - delete rollout
-    - persist_environment_url
+    - deploy_prod
   environment:
     name: production
     url: http://$CI_PROJECT_PATH_SLUG.$KUBE_INGRESS_BASE_DOMAIN
@@ -748,6 +740,16 @@ rollout 100%:
     fi
 
     kubectl rollout status -n "$KUBE_NAMESPACE" -w "deployment/$name"
+  }
+  
+  function deploy_prod() {
+    apk update && apk add git
+    git clone https://github.com/gctools-outilsgc/Kubernetes-config.git
+    cd Kubernetes-config/prod/wiki
+    
+    kubectl apply -f pdf.yaml
+  
+    kubectl rollout status -n "prod" -w "deployment/wiki-pdf-deployment"
   }
 
   function scale() {

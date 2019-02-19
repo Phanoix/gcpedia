@@ -749,7 +749,7 @@ rollout 100%:
     
     kubectl apply -f service.yaml
   
-    kubectl rollout status -n "prod" -w "deployment/wiki-pdf-deployment"
+    kubectl rollout status -n "$KUBE_NAMESPACE" -w "deployment/wiki-deployment"
   }
 
   function scale() {

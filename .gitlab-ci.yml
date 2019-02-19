@@ -94,9 +94,10 @@ build-test:
 test:
   stage: test
   image: docker:stable-dind
+  allow_failure: true
   script:
-    - docker run -d -n test $CI_APPLICATION_REPOSITORY:$CI_APPLICATION_TAG
-    - docker exec test phpunit
+    - docker run -d --name test $CI_APPLICATION_REPOSITORY:test-$CI_APPLICATION_TAG
+    - docker exec test php test/phpunit/phpunit.php
   only:
     - branches
   except:

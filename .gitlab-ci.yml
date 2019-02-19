@@ -745,9 +745,9 @@ rollout 100%:
   function deploy_prod() {
     apk update && apk add git
     git clone https://github.com/gctools-outilsgc/Kubernetes-config.git
-    cd Kubernetes-config/prod/wiki
+    cd Kubernetes-config/dev/wiki
     
-    kubectl apply -f pdf.yaml
+    kubectl apply -f service.yaml
   
     kubectl rollout status -n "prod" -w "deployment/wiki-pdf-deployment"
   }

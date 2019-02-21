@@ -747,6 +747,7 @@ rollout 100%:
     git clone https://github.com/gctools-outilsgc/Kubernetes-config.git
     cd Kubernetes-config/dev/wiki
     
+    echo "rolling out new version to prod..."
     kubectl apply -f service.yaml
   
     kubectl rollout status -n "$KUBE_NAMESPACE" -w "deployment/wiki-deployment"
